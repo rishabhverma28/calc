@@ -1,1 +1,0 @@
-## A simple calculator App using React 
