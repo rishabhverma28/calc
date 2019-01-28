@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import math from 'mathjs'
 import "./App.css";
 
 class Button extends Component {
@@ -10,10 +11,12 @@ class Button extends Component {
 class Layout extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             display: "0",
             lastPressed: ""
         };
+        
         this.baseState = this.state
         this.handleClick = this.handleClick.bind(this);
         // this.resetDisplay = this.resetDisplay.bind(this);
@@ -22,31 +25,67 @@ class Layout extends Component {
         this.setState(this.baseState)
         // debugger
     }
+    shouldComponentUpdate = (prevProps, prevState) => {
+        // debugger
+        // console.log("shouldComponentUpdate")
+        // console.log(prevState)
+        if(prevState && prevState.display[0]==="0" && prevState.display.length===2){
+            // return false
+            const ff = prevState.display.substr(1)
+            this.setState({
+                display: ff
+            })
+        }
+        // if(prevState && prevState.lastPressed==="="){
+        //     // console.log(prevState,prevProps)
+        //     // debugger
+        //     this.setState({
+        //         display: prevState.lastPressed
+        //     })
+        // }
+        return true
+    }
     // componentDidUpdate(prevProps, prevState) {
     //     console.log("Updated");
     // }
+    componentDidMount() {
+        const checkLS = localStorage.getItem("finalResult")
+        if(checkLS) {
+            this.setState({
+                display: checkLS,
+                lastPressed: ""
+            })
+        }
+    }
     componentDidUpdate = (prevProps, prevState) => {
         // let width = ReactDOM.findDOMNode(this).parentNode.offsetWidth
         // if (prevState && prevState.width !== width) {
             // this.setState({ width })
         // }
-        console.log(prevState.display[1])
-        if(prevState && prevState.display[0]==="0"){
-            console.log("hh")
-            this.setState({
-                display: prevState.display.substr(1)
-            })
-        }
+        // console.log(prevState.display[1])
+        // debugger
+        // if(prevState && prevState.display[0]==="0" && prevState.lastPressed !== "C"){
+        // if(prevState && prevState.display[0]==="0"){
+        //         // console.log("hh")
+        //         debugger
+        //     const ff = prevState.display.substr(1)
+        //     if(ff.length!==0)
+        //         this.setState({
+        //             display: ff
+        //         })
+        //     }
+        // }
         // if(prevState && prevState.lastPressed==="="){
+        //     // console.log(prevState,prevProps)
         //     this.setState({
-        //         display: prevState.display
+        //         display: "0"
         //     })
         // }
     }
     handleClick(e) {
         const clickedElement = e.target.innerHTML;
         // console.log(this.state);
-        const operators = ["+", "-", "*", "/"]
+        // const operators = ["+", "-", "*", "/"]
         // if(this.state.display === "0"){
         //     debugger
         //     this.setState({
@@ -54,7 +93,7 @@ class Layout extends Component {
         //     })
         // }
         // if(this.state.lastPressed === "=" && !operators.includes(clickedElement)) {
-        //     // debugger
+        //     debugger
         //     // let clearedResult = " "
         //     // this.setState({
         //     //     display: ""
@@ -66,33 +105,38 @@ class Layout extends Component {
             
             case "C":
                 // debugger
-                this.setState({
-                    display: "00",
-                    lastPressed: clickedElement
-                })
+                // if(this.state.display === "0") {
+                    this.setState({
+                        display: "0",
+                        lastPressed: clickedElement
+                    })
+                // }
+                // debugger
             break
             case "+/-":
                 this.setState(state=>({
-                    display: -1 * state.display,
+                    display: math.multiply(-1 , state.display),
                     lastPressed: clickedElement
                 }))
             break
             case "=":
-                try {
+                // try {
                     
-                    let finalResult = eval(this.state.display)
-                    this.setState({
-                        display: finalResult,
-                        lastPressed: clickedElement
-                    })
-                } catch (e) {
-                    if (e instanceof SyntaxError) {
-                        this.setState({
-                            display: "00",
-                            lastPressed: ""
-                        })
-                    }
-                }
+                let finalResult = math.eval(this.state.display)
+                finalResult = math.format(finalResult, { precision: 14 })
+                this.setState({
+                    display: finalResult,
+                    lastPressed: clickedElement
+                })
+                localStorage.setItem("finalResult", finalResult)
+                // } catch (e) {
+                //     if (e instanceof SyntaxError) {
+                //         this.setState({
+                //             display: "00",
+                //             lastPressed: ""
+                //         })
+                //     }
+                // }
                 
             break
             default:
@@ -119,12 +163,11 @@ class Layout extends Component {
         }
     }
     render() {
-        let numArray = [...Array(10).keys()];
-
         // for(let i of numArray ) {
         // <Button value = "1"/>
         // }
         return (
+            
             // for(let i of numArray ) {
             <div className="calc-app">
                 <div className="calc-app-display">{this.state.display}</div>
