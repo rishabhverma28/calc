@@ -4,9 +4,10 @@
 .calc-app {
     width: 80%;
     margin: 15px auto;
-    border: 1px solid #000;
+    border: 1px solid #424241;
     display: grid;
     box-shadow: 0px 0px 60px -20px rgba(0, 0, 0, 0.75);
+    border-radius: 5px;
 }
 .calc-app-display {
     padding: 40px 20px;
@@ -14,7 +15,7 @@
     text-align: right;
     background-image: linear-gradient(to top, #58595b, #838485);
     color: #fff;
-    border: 1px solid #000;
+    border: 1px solid #424241;
 }
 .row {
     display: grid;
@@ -26,9 +27,25 @@
 .row:nth-child(2) {
     background: #6d6e6e;
 }
+.row:nth-child(2) button:last-child {
+    font-size: 0; 
+}
+.row:nth-child(2) button:last-child:after {
+    content: "\00F7";
+    font-size: 5vw;
+}
+
+.row:nth-child(3) button:last-child {
+    font-size: 0; 
+}
+
+.row:nth-child(3) button:last-child:after {
+    content: "\00D7";
+    font-size: 5vw;
+}
 
 .row button {
-    border: 1px solid #000;
+    border: 1px solid #424241;
     outline: none;
     background: none;
     padding: 20px 0;
@@ -39,6 +56,7 @@
     font-family: inherit;
     width: 100%;
     margin: 0;
+    color: #e8e8e8;
 }
 .row button:last-child {
     background: #df9d48;
@@ -54,6 +72,7 @@
 
 .row button:hover {
     box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.9);
+    z-index: 2;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -65,5 +84,11 @@
     }
     .calc-app-display {
         font-size: 2.6vw;
+    }
+    .row:nth-child(2) button:last-child:after {
+        font-size: 2vw;
+    }
+    .row:nth-child(3) button:last-child:after {
+        font-size: 2vw;
     }
 }

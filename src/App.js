@@ -38,6 +38,8 @@ class Layout extends Component {
     };
 
     componentDidMount() {
+        // this.myDiv.addEventListener("keydown", this.handleKey)
+        // this.myDiv.focus()
         const checkLS = localStorage.getItem("finalResult");
         if (checkLS) {
             this.setState({
@@ -46,7 +48,13 @@ class Layout extends Component {
             });
         }
     }
+    // componentWillUnmount() {
+    //     this.myDiv.removeEventListener('keydown', this.handleKey);
+    // }
 
+    // handleKey = e => {
+    //     console.log(e.keyCode);
+    // }
     handleClick(e) {
         const clickedElement = e.target.innerHTML;
         switch (clickedElement) {
@@ -57,8 +65,19 @@ class Layout extends Component {
                 });
                 break;
             case "+/-":
+                let disp = ""
+                try {
+                    disp = math.multiply(-1, this.state.display)
+                }
+                catch (e) {
+                    disp = this.state.display
+                    let sym =  disp.substr(-1)
+                    disp = disp.substr(0,disp.length-1)
+                    disp = math.multiply(-1, disp)
+                    disp += sym
+                }
                 this.setState(state => ({
-                    display: math.multiply(-1, state.display),
+                    display: disp,
                     lastPressed: clickedElement
                 }));
                 break;
@@ -84,7 +103,8 @@ class Layout extends Component {
     render() {
         return (
             <div className="calc-app">
-                <div className="calc-app-display">{this.state.display}</div>
+                {/* <div className="calc-app-display" tabIndex = "1" ref={ref => this.myDiv = ref}>{this.state.display}</div> */}
+                <div className="calc-app-display" tabIndex = "1" ref={ref => this.myDiv = ref}>{this.state.display}</div>
 
                 <div className="row">
                     <Button value="C" onClick={this.handleClick} />
