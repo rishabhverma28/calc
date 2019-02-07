@@ -1,6 +1,5 @@
-#root {
-    font-family: monospace;
-}
+@import url('https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe');
+
 .calc-app {
     width: 80%;
     margin: 15px auto;
@@ -9,6 +8,9 @@
     box-shadow: 0px 0px 60px -20px rgba(0, 0, 0, 0.75);
     border-radius: 5px;
 }
+.calc-app.iosLike {
+    font-family: monospace;
+}
 .calc-app-display {
     padding: 40px 20px;
     font-size: 5vw;
@@ -16,6 +18,7 @@
     background-image: linear-gradient(to top, #58595b, #838485);
     color: #fff;
     border: 1px solid #424241;
+    font-family: inherit;
 }
 .row {
     display: grid;
@@ -42,6 +45,10 @@
 .row:nth-child(3) button:last-child:after {
     content: "\00D7";
     font-size: 5vw;
+}
+
+.row:nth-child(6) button:first-child {
+    grid-column: span 2;
 }
 
 .row button {
@@ -75,6 +82,53 @@
     z-index: 2;
 }
 
+.meadow .calc-app-display {
+    background-image: linear-gradient(to top, #ffffc4, #ffffeb);
+    color:#000;
+}
+.meadow .row:nth-child(2) {
+    background: #608c4c;
+}
+.meadow .row {
+    background: #a3c593;
+}
+.meadow .row button:last-child {
+    background: #c09b6f;
+}
+.meadow .row button {
+    color: #000;
+}
+
+.lit .calc-app-display {
+    background: #f5f5f5;
+    color:#000;
+}
+.lit .row:nth-child(2) {
+    background: #f9c73f;
+}
+.lit .row {
+    background: #ffe04f;
+}
+.lit .row button:last-child {
+    background: #ff4e41;
+}
+.lit .row button {
+    color: #000;
+}
+
+.calc-app.lit {
+    font-family: 'ZCOOL KuaiLe', cursive;
+}
+
+#style-select {
+    padding: 10px;
+    appearance: none;
+    border-radius: 0;
+    border: 1px solid black;
+    background: none;
+    margin: 0;
+    font-family: inherit;
+}
 @media only screen and (min-width: 1024px) {
     .calc-app {
         width: 30%;

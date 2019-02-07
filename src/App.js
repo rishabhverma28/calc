@@ -14,11 +14,14 @@ class Layout extends Component {
 
         this.state = {
             display: "0",
-            lastPressed: ""
+            lastPressed: "",
+            class: "iosLike"
         };
 
         this.baseState = this.state;
         this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.myRef = React.createRef();
     }
     resetDisplay() {
         this.setState(this.baseState);
@@ -55,6 +58,14 @@ class Layout extends Component {
     // handleKey = e => {
     //     console.log(e.keyCode);
     // }
+    handleChange(e) {
+        const clickedElement = e.target.value
+        // console.log(clickedElement)
+        this.setState({
+            class: clickedElement
+        })
+        // console.log(this.myRef.current.value)
+    }
     handleClick(e) {
         const clickedElement = e.target.innerHTML;
         switch (clickedElement) {
@@ -102,7 +113,8 @@ class Layout extends Component {
     }
     render() {
         return (
-            <div className="calc-app">
+            
+            <div className={`calc-app ${this.state.class}`}>
                 {/* <div className="calc-app-display" tabIndex = "1" ref={ref => this.myDiv = ref}>{this.state.display}</div> */}
                 <div className="calc-app-display" tabIndex = "1" ref={ref => this.myDiv = ref}>{this.state.display}</div>
 
@@ -135,6 +147,12 @@ class Layout extends Component {
                     <Button value="." onClick={this.handleClick} />
                     <Button value="=" onClick={this.handleClick} />
                 </div>
+                <label htmlFor="style-select">Don't like the style <span role="img" aria-label = "style">💅</span>? Change it:</label>
+                <select id="style-select" onChange = {this.handleChange} ref={this.myRef}>
+                    <option value="iosLike">iosLike</option>
+                    <option value="meadow">Meadow</option>
+                    <option value="lit">🔥</option>
+                </select>
             </div>
         );
     }
